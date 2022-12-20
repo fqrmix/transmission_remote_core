@@ -29,7 +29,9 @@ class ControllerGateway:
         elif current_url.netloc == 'rutracker.org':
             topic_id = cls._get_rutracker_topic_id(url)
             if not topic_id:
-                raise TopicIdIsEmpty
+                raise TopicIdIsEmpty(
+                    "Incorrect link for rutracker.org resource! Can't parse the topic ID."
+                )
             torrent.type = "rutracker"
             torrent.url = cls.rutracker_client.topic(topic_id)[0].get_magnet()
             return torrent
@@ -40,7 +42,12 @@ class ControllerGateway:
             return torrent
         
         else:
-            raise ParseErorr
+            raise ParseErorr(
+                "Incorrent link for torrent! You can use:\n"\
+                "- Any magnet link\n"\
+                "- Rutracker.org link with topic ID\n"\
+                "- Direct link to .torrent file"
+            )
 
     @staticmethod
     def _get_rutracker_topic_id(url):

@@ -1,3 +1,3 @@
 from core.controller import TransmissionFacade
 
-transmission_facade = TransmissionFacade()
+transmission_controller = TransmissionFacade()

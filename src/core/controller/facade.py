@@ -24,12 +24,12 @@ class TransmissionFacade:
         )
 
     @exception_handler
-    def add_torrent(self, url) -> list:
+    def add_torrent(self, url) -> Torrent:
         torrent_object = ControllerGateway.get_torrent_object(url)
         torrent = self.transmission_client.add_torrent(
             torrent_object.url
         )
-        return [torrent.name, torrent.status, torrent.progress, torrent.download_dir]
+        return torrent
 
     @exception_handler
     def get_torrent_list(self) -> list[Torrent]:

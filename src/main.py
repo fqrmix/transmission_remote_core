@@ -1,8 +1,3 @@
-from core.rutracker_api import RutrackerApi
+from core.controller import Controller
 
-api = RutrackerApi()
-
-api.login("username", "password")
-search = api.search("test request")
-
-print(search)
+controller = Controller()

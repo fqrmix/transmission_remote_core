@@ -12,3 +12,9 @@ class RedirectException(Exception):
 
 class ServerException(Exception):
     pass
+
+class DataIsNone(Exception):
+    pass
+
+class ParseException(DataIsNone):
+    pass

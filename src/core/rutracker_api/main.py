@@ -1,4 +1,4 @@
-from .parser import Parser
+from .page_parser import Parser
 from .page_provider import PageProvider
 from .api_provider import ApiProvider
 from requests import Session
@@ -55,7 +55,7 @@ class RutrackerApi(object):
 
         return self.page_provider.torrent_file(topic_id)
 
-    def topic(self, topic_id: Union[str, int]) -> Torrent:
+    def topic(self, topic_id: Union[str, int]) -> list[Torrent]:
         """Returns information about the torrent"""
 
         response = self.api.get_tor_topic_data(topic_id)

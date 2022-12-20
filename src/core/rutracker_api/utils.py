@@ -1,4 +1,4 @@
-import urllib.parse
+from urllib.parse import urlencode, unquote_plus
 
 
 def format_size(size_in_bytes):
@@ -20,7 +20,7 @@ def generate_magnet(hash, tracker=None, title=None, url=None):
     if tracker:
         params["tr"] = tracker
     if title:
-        params["dn"] = title
+        params["dn"] = title.replace('&quot;', '"')
     if url:
         params["as"] = url
-    return "magnet:?" + urllib.parse.urlencode(params)
+    return "magnet:?" + unquote_plus(urlencode(params))

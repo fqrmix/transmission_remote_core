@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from .torrent import Torrent
+from .exceptions import ParseException, DataIsNone
 from .enums import Url, State
 
 
@@ -65,21 +66,26 @@ class Parser(object):
     @staticmethod
     def parse_topic(response):
         result = []
-        for topic_id, data in response.items():
-            result.append(
-                Torrent(
-                    # author=author, # only id
-                    # category=category, # only id
-                    # downloads=downloads,
-                    # leeches=leeches,
-                    registered=data["reg_time"],  # is that timestamp?
-                    seeds=data["seeders"],
-                    size=int(data["size"]),
-                    state=State.get(data["tor_status"]).title,
-                    title=data["topic_title"],
-                    topic_id=topic_id,
-                    hash=data["info_hash"],
-                    # magnet=magnet,
+        try:
+            for topic_id, data in response.items():
+                if data is None:
+                    raise ParseException
+                result.append(
+                    Torrent(
+                        # author=author, # only id
+                        # category=category, # only id
+                        # downloads=downloads,
+                        # leeches=leeches,
+                        registered=data["reg_time"],  # is that timestamp?
+                        seeds=data["seeders"],
+                        size=int(data["size"]),
+                        state=State.get(data["tor_status"]).title,
+                        title=data["topic_title"],
+                        topic_id=topic_id,
+                        hash=data["info_hash"],
+                        # magnet=magnet,
+                    )
                 )
-            )
-        return result
+            return result
+        except ParseException:
+            print('Data object is None!')

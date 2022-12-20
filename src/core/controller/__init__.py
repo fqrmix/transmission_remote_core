@@ -1,1 +1,1 @@
-from .main import Controller
+from .facade import TransmissionFacade

@@ -4,7 +4,6 @@ from .exceptions import (
     NotAuthorizedException,
     RedirectException,
 )
-import json
 
 
 class PageProvider:

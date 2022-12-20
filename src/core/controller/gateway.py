@@ -3,7 +3,7 @@ import re
 import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
-from core.rutracker_api import RutrackerApi
+from ..rutracker_api import RutrackerApi
 from .data import Torrent
 from .exception import (ParseErorr, TopicIdIsEmpty, 
                         InvalidMagnetLink, InvalidRuTrackerLink)

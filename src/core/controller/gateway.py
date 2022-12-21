@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 from ..rutracker_api import RutrackerApi
-from .data import Torrent, DownloadPath, Category, TorrentType
+from .data import TorrentObject, DownloadPath, Category, TorrentType
 from .exception import (ParseErorr, TopicIdIsEmpty, 
                         InvalidMagnetLink, InvalidRuTrackerLink)
 
@@ -17,9 +17,9 @@ class ControllerGateway:
     )
 
     @classmethod
-    def get_torrent_object(cls, url: str) -> Torrent:
+    def get_torrent_object(cls, url: str) -> TorrentObject:
         current_url = urlparse(url)
-        torrent = Torrent()
+        torrent = TorrentObject()
 
         if current_url.scheme == "magnet":
             torrent.url = url
@@ -63,10 +63,10 @@ class ControllerGateway:
         return None
 
     @classmethod
-    def _get_rutracker_category(cls, rutracker_torrent: Torrent):
+    def _get_rutracker_category(cls, rutracker_torrent):
         dict = rutracker_torrent.as_dict()
         forum_id = dict['forum_id']
-        category = cls.rutracker_client.forum(forum_id)['result'][0]['forum_name']
+        category = cls.rutracker_client.forum(forum_id)[0]['forum_name']
         if re.match(r'.+музыка.+', category, re.IGNORECASE):
             return Category.music
         elif re.match(r'(.+фильмы.+|.+кино.+)', category, re.IGNORECASE):
@@ -75,4 +75,3 @@ class ControllerGateway:
             return Category.tvshow
         else:
             return Category.unknown
-

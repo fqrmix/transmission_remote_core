@@ -1,6 +1,7 @@
 from transmission_rpc import Client as TransmissionClient
 from transmission_rpc import Torrent, Session
 from .gateway import ControllerGateway
+from .data import TorrentObject
 from dotenv import load_dotenv
 import os
 
@@ -8,7 +9,7 @@ class TransmissionFacade:
     def exception_handler(func):
         def _wrapper(*args, **kwargs):
             try:
-                func(*args, **kwargs)
+                return func(*args, **kwargs)
             except Exception as error:
                 print(error)
         return _wrapper
@@ -24,14 +25,15 @@ class TransmissionFacade:
         )
 
     @exception_handler
-    def add_torrent(self, torrent_object: Torrent) -> Torrent:
+    def add_torrent(self, torrent_object: TorrentObject) -> TorrentObject:
         torrent = self.transmission_client.add_torrent(
-            torrent_object.url
+            torrent=torrent_object.url,
+            download_dir=torrent_object.download_path,
         )
         return torrent
 
     @exception_handler
-    def get_torrent_object(self, url) -> Torrent:
+    def get_torrent_object(self, url: str) -> TorrentObject:
         return ControllerGateway.get_torrent_object(url)
 
     @exception_handler
@@ -63,5 +65,3 @@ class TransmissionFacade:
             speed_limit_down_enabled=True
         )
         return self.transmission_client.get_session()
-
-

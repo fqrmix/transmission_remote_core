@@ -57,13 +57,14 @@ class Category(object, metaclass=CategoryProperties):
     _unknown = 'Unknown'
     _music = 'Music'
     _tvshow = 'TV Show'
-    _movies = 'Movie'
+    _movie = 'Movie'
 
 class DownloadPath(object, metaclass=DownloadPathProperties):
-    _default = '/path/to/default'
-    _music = '/path/to/music'
-    _tvshows = '/path/to/tvshows'
-    _movies = '/path/to/movies'
+    __base_path = '/tmp/mnt/a18e94f2-14e2-3724-91f7-2496d9d1c624/'
+    _default = __base_path + 'Downloads/download'
+    _music = __base_path + 'Media Sever/Music'
+    _tvshows = __base_path + 'Media Sever/TV Shows'
+    _movies = __base_path + 'Media Sever/Movies'
 
     def by_category(category: Category):
         if category == Category.unknown:
@@ -78,7 +79,7 @@ class DownloadPath(object, metaclass=DownloadPathProperties):
         if category == Category.music:
             return DownloadPath.music
 
-class Torrent:
+class TorrentObject:
     def __init__(self) -> None:
         self._url = None
         self._type = None

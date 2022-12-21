@@ -58,3 +58,11 @@ class ApiProvider(object):
             val = ",".join(map(str, val))
         response = self._request("get_tor_topic_data", {"by": "topic_id", "val": val})
         return response["result"]
+
+    def get_tor_forum_data(self, val: Union[list, str]) -> dict:
+        """GET forum data by forum id"""
+
+        if isinstance(val, list):
+            val = ",".join(map(str, val))
+        response = self._request("get_forum_data", {"by": "forum_id", "val": val})
+        return response["result"]

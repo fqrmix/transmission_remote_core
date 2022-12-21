@@ -82,9 +82,28 @@ class Parser(object):
                         state=State.get(data["tor_status"]).title,
                         title=data["topic_title"],
                         topic_id=topic_id,
+                        forum_id=data["forum_id"],
                         hash=data["info_hash"],
                         # magnet=magnet,
                     )
+                )
+            return result
+        except ParseException:
+            print('Data object is None!')
+
+    @staticmethod
+    def parse_forum(response):
+        result = []
+        try:
+            for forum_id, data in response.items():
+                if data is None:
+                    raise ParseException
+                result.append(
+                    {
+                        'forum_id': forum_id,
+                        'forum_name': data['forum_name'],
+                        'parent_id': data['parent_id']
+                    }
                 )
             return result
         except ParseException:

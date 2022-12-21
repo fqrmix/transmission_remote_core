@@ -60,3 +60,9 @@ class RutrackerApi(object):
 
         response = self.api.get_tor_topic_data(topic_id)
         return self.parser.parse_topic(response)
+
+    def forum(self, forum_id: Union[str, int]) -> list[Torrent]:
+        """Returns information about the forum"""
+
+        response = self.api.get_tor_forum_data(forum_id)
+        return self.parser.parse_forum(response)

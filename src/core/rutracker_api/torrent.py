@@ -19,6 +19,7 @@ class Torrent(object):
         state=None,
         title=None,
         topic_id=None,
+        forum_id=None,
         hash=None,
         magnet=None,
     ):
@@ -32,6 +33,7 @@ class Torrent(object):
         self.state = state
         self.title = title
         self.topic_id = topic_id
+        self.forum_id = forum_id
 
         self.url = f"{Url.HOST.value}/forum/viewtopic.php?t={topic_id}"
         self.hash = hash
@@ -80,6 +82,7 @@ class Torrent(object):
             "state": self.state,
             "title": self.title,
             "topic_id": self.topic_id,
+            "forum_id": self.forum_id,
             "url": self.url,
             "hash": self.hash,
             "magnet": self.magnet,

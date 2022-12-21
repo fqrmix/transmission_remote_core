@@ -34,10 +34,11 @@ class ControllerGateway:
                 raise TopicIdIsEmpty(
                     "Incorrect link for rutracker.org resource! Can't parse the topic ID."
                 )
+            rutracker_torrent = cls.rutracker_client.topic(topic_id)[0]
             torrent.type = TorrentType.rutracker
-            torrent.category = Category.tvshow
-            torrent.download_path = DownloadPath.tvshows
-            torrent.url = cls.rutracker_client.topic(topic_id)[0].get_magnet()
+            torrent.category = cls._get_rutracker_category(rutracker_torrent)
+            torrent.download_path = DownloadPath.by_category(torrent.category)
+            torrent.url = rutracker_torrent.get_magnet()
             return torrent
         
         elif url.endswith('.torrent'):
@@ -60,3 +61,18 @@ class ControllerGateway:
         if re.match(r'^(t=)([0-9]+)', urlparse(url).query):
             return re.findall(r'([0-9]+)', urlparse(url).query)[0]
         return None
+
+    @classmethod
+    def _get_rutracker_category(cls, rutracker_torrent: Torrent):
+        dict = rutracker_torrent.as_dict()
+        title = dict['title']
+        category = cls.rutracker_client.search(title)['result'][0].as_dict()['category']
+        if re.match(r'.+музыка.+', category, re.IGNORECASE):
+            return Category.music
+        elif re.match(r'(.+фильмы.+|.+кино.+)', category, re.IGNORECASE):
+            return Category.movie
+        elif re.match(r'.+сериалы.+', category, re.IGNORECASE):
+            return Category.tvshow
+        else:
+            return Category.unknown
+

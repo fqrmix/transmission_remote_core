@@ -53,18 +53,30 @@ class TorrentType(object, metaclass=TorrentTypeProperties):
     _rutracker = 'RuTracker'
     _direct = 'Direct'
 
+class Category(object, metaclass=CategoryProperties):
+    _unknown = 'Unknown'
+    _music = 'Music'
+    _tvshow = 'TV Show'
+    _movies = 'Movie'
+
 class DownloadPath(object, metaclass=DownloadPathProperties):
     _default = '/path/to/default'
     _music = '/path/to/music'
     _tvshows = '/path/to/tvshows'
     _movies = '/path/to/movies'
 
-class Category(object, metaclass=CategoryProperties):
-    _unknown = 'Unknown'
-    _music = 'Music'
-    _tvshows = 'TV Show'
-    _movies = 'Movie'
+    def by_category(category: Category):
+        if category == Category.unknown:
+            return DownloadPath.default
 
+        if category == Category.movie:
+            return DownloadPath.movies
+        
+        if category == Category.tvshow:
+            return DownloadPath.tvshows
+        
+        if category == Category.music:
+            return DownloadPath.music
 
 class Torrent:
     def __init__(self) -> None:

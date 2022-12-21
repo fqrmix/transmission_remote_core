@@ -65,8 +65,8 @@ class ControllerGateway:
     @classmethod
     def _get_rutracker_category(cls, rutracker_torrent: Torrent):
         dict = rutracker_torrent.as_dict()
-        title = dict['title']
-        category = cls.rutracker_client.search(title)['result'][0].as_dict()['category']
+        forum_id = dict['forum_id']
+        category = cls.rutracker_client.forum(forum_id)['result'][0]['forum_name']
         if re.match(r'.+музыка.+', category, re.IGNORECASE):
             return Category.music
         elif re.match(r'(.+фильмы.+|.+кино.+)', category, re.IGNORECASE):

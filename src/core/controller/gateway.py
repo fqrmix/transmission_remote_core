@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 from ..rutracker_api import RutrackerApi
-from .data import Torrent
+from .data import Torrent, DownloadPath, Category, TorrentType
 from .exception import (ParseErorr, TopicIdIsEmpty, 
                         InvalidMagnetLink, InvalidRuTrackerLink)
 
@@ -17,13 +17,15 @@ class ControllerGateway:
     )
 
     @classmethod
-    def get_torrent_object(cls, url) -> Torrent:
+    def get_torrent_object(cls, url: str) -> Torrent:
         current_url = urlparse(url)
-        torrent = Torrent
+        torrent = Torrent()
 
         if current_url.scheme == "magnet":
-            torrent.type = "magnet"
             torrent.url = url
+            torrent.type = TorrentType.magnet
+            torrent.category = Category.unknown
+            torrent.download_path = DownloadPath.default
             return torrent
 
         elif current_url.netloc == 'rutracker.org':
@@ -32,12 +34,16 @@ class ControllerGateway:
                 raise TopicIdIsEmpty(
                     "Incorrect link for rutracker.org resource! Can't parse the topic ID."
                 )
-            torrent.type = "rutracker"
+            torrent.type = TorrentType.rutracker
+            torrent.category = Category.tvshow
+            torrent.download_path = DownloadPath.tvshows
             torrent.url = cls.rutracker_client.topic(topic_id)[0].get_magnet()
             return torrent
         
         elif url.endswith('.torrent'):
-            torrent.type = "direct"
+            torrent.type = TorrentType.direct
+            torrent.category = Category.unknown
+            torrent.download_path = DownloadPath.default
             torrent.url = url
             return torrent
         

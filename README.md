@@ -3,12 +3,24 @@
 This is an interface class through which you can interact with remote transmission-daemon
 
 ## Installation
-Just clone this repository into your project folder
+1) Clone this repository into your project folder
 
 ```bash
 cd /path/to/your/project
 git clone https://github.com/fqrmix/transmission_remote_core.git
 ```
+2) Create .env file into transmission_remote_core/core/controller which must include auth data
+```bash
+touch ./transmission_remote_core/src/core/controller/.env &&\
+echo -e \
+"RUTRACKER_LOGIN=*RuTracker username*
+RUTRACKER_PASSWORD=*RuTracker password*\n
+TRANSMISSION_HOST=*transmission-daemon host*
+TRANSMISSION_PORT=*transmission-daemon port*
+TRANSMISSION_LOGIN=*transmission-daemon username*
+TRANSMISSION_PASSWORD=*transmission-daemon password*" >> ./transmission_remote_core/src/core/controller/.env
+```
+
 
 ## Usage
 ```python

@@ -62,9 +62,9 @@ class Category(object, metaclass=CategoryProperties):
 class DownloadPath(object, metaclass=DownloadPathProperties):
     __base_path = '/tmp/mnt/a18e94f2-14e2-3724-91f7-2496d9d1c624/'
     _default = __base_path + 'Downloads/download'
-    _music = __base_path + 'Media Sever/Music'
-    _tvshows = __base_path + 'Media Sever/TV Shows'
-    _movies = __base_path + 'Media Sever/Movies'
+    _music = __base_path + 'Media Server/Music'
+    _tvshows = __base_path + 'Media Server/TV Shows'
+    _movies = __base_path + 'Media Server/Movies'
 
     def by_category(category: Category):
         if category == Category.unknown:

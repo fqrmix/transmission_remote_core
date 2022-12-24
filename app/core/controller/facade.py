@@ -42,7 +42,8 @@ class TransmissionFacade:
 
     @exception_handler
     def start_downloading(self):
-        return self.transmission_client.start_all()
+        self.transmission_client.start_all()
+        return self.transmission_client.get_session()
 
     @exception_handler
     def set_download_speed_limit(self, speed: int) -> Session:
@@ -53,14 +54,14 @@ class TransmissionFacade:
         return self.transmission_client.get_session()
     
     @exception_handler
-    def disable_speed_limit(self) -> Session:
+    def disable_download_speed_limit(self) -> Session:
         self.transmission_client.set_session(
             speed_limit_down_enabled=False
         )
         return self.transmission_client.get_session()
     
     @exception_handler
-    def enable_speed_limit(self) -> Session:
+    def enable_download_speed_limit(self) -> Session:
         self.transmission_client.set_session(
             speed_limit_down_enabled=True
         )

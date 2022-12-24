@@ -9,9 +9,9 @@ This is an interface class through which you can interact with remote transmissi
 cd /path/to/your/project
 git clone https://github.com/fqrmix/transmission_remote_core.git
 ```
-2) Create .env file into transmission_remote_core/core/controller which must include auth data
+2) Create .env file into transmission_remote_core/app/core/controller which must include auth data
 ```bash
-touch ./transmission_remote_core/src/core/controller/.env &&\
+touch ./transmission_remote_core/app/core/controller/.env &&\
 echo -e \
 "RUTRACKER_LOGIN=*RuTracker username*
 RUTRACKER_PASSWORD=*RuTracker password*\n
@@ -24,7 +24,7 @@ TRANSMISSION_PASSWORD=*transmission-daemon password*" >> ./transmission_remote_c
 
 ## Usage
 ```python
-from transmission_remote_core.src import TransmissionFacade
+from transmission_remote_core.app import TransmissionFacade
 ...
 
 transmission_facade = TransmissionFacade()

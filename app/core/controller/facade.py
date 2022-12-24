@@ -33,6 +33,10 @@ class TransmissionFacade:
         return torrent
 
     @exception_handler
+    def change_category(self, torrent_object: TorrentObject, category: str) -> TorrentObject:
+        return ControllerGateway.set_torrent_category(torrent_object, category)
+
+    @exception_handler
     def get_torrent_object(self, url: str) -> TorrentObject:
         return ControllerGateway.get_torrent_object(url)
 

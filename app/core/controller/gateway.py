@@ -55,6 +55,22 @@ class ControllerGateway:
                 "- Rutracker.org link with topic ID\n"\
                 "- Direct link to .torrent file"
             )
+    
+    @classmethod
+    def set_torrent_category(torrent_object: TorrentObject, category: str) -> TorrentObject:
+        if category == 'movie':
+            torrent_object.category = Category.movie
+            torrent_object.download_path = DownloadPath.by_category(Category.movie)
+
+        if category == 'tvshow':
+            torrent_object.category = Category.tvshow
+            torrent_object.download_path = DownloadPath.by_category(Category.tvshow)
+
+        if category == 'music':
+            torrent_object.category = Category.music
+            torrent_object.download_path = DownloadPath.by_category(Category.music)
+
+        return torrent_object
 
     @staticmethod
     def _get_rutracker_topic_id(url):

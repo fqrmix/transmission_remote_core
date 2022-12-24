@@ -10,11 +10,15 @@ from .exception import (ParseErorr, TopicIdIsEmpty,
 
 class ControllerGateway:
     load_dotenv()
-    rutracker_client = RutrackerApi()
-    rutracker_client.login(
-        username=os.environ.get('RUTRACKER_LOGIN'), 
-        password=os.environ.get('RUTRACKER_PASSWORD')
-    )
+    try: 
+        rutracker_client = RutrackerApi()
+        rutracker_client.login(
+            username=os.environ.get('RUTRACKER_LOGIN'), 
+            password=os.environ.get('RUTRACKER_PASSWORD')
+        )
+    except Exception as e:
+        print(e)
+        print('Failed to connect to Rutracker API, passed.')
 
     @classmethod
     def get_torrent_object(cls, url: str) -> TorrentObject:

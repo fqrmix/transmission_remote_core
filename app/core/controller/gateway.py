@@ -60,7 +60,7 @@ class ControllerGateway:
                 "- Direct link to .torrent file"
             )
     
-    @classmethod
+    @staticmethod
     def set_torrent_category(torrent_object: TorrentObject, category: str) -> TorrentObject:
         if category == 'movie':
             torrent_object.category = Category.movie

@@ -2,7 +2,7 @@
 import re
 import os
 from dotenv import load_dotenv
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote_plus
 from ..rutracker_api import RutrackerApi
 from .data import TorrentObject, DownloadPath, Category, TorrentType
 from .exception import (ParseErorr, TopicIdIsEmpty, 
@@ -23,10 +23,12 @@ class ControllerGateway:
     @classmethod
     def get_torrent_object(cls, url: str) -> TorrentObject:
         current_url = urlparse(url)
+        print(current_url)
         torrent = TorrentObject()
 
         if current_url.scheme == "magnet":
             torrent.url = url
+            torrent.name = cls._get_torrrent_name_by_magnet(url)
             torrent.type = TorrentType.magnet
             torrent.category = Category.unknown
             torrent.download_path = DownloadPath.default
@@ -40,12 +42,14 @@ class ControllerGateway:
                 )
             rutracker_torrent = cls.rutracker_client.topic(topic_id)[0]
             torrent.type = TorrentType.rutracker
+            torrent.name = rutracker_torrent.title
             torrent.category = cls._get_rutracker_category(rutracker_torrent)
             torrent.download_path = DownloadPath.by_category(torrent.category)
             torrent.url = rutracker_torrent.get_magnet()
             return torrent
         
         elif url.endswith('.torrent'):
+            torrent.name = 'Unknown'
             torrent.type = TorrentType.direct
             torrent.category = Category.unknown
             torrent.download_path = DownloadPath.default
@@ -75,6 +79,12 @@ class ControllerGateway:
             torrent_object.download_path = DownloadPath.by_category(Category.music)
 
         return torrent_object
+
+    @staticmethod
+    def _get_torrrent_name_by_magnet(url):
+        match = re.findall(r'dn=.+', urlparse(url).query)
+        if match:
+            return unquote_plus(match[0].replace('dn=', ''))
 
     @staticmethod
     def _get_rutracker_topic_id(url):

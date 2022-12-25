@@ -5,6 +5,8 @@ from .data import TorrentObject
 from dotenv import load_dotenv
 import os
 
+class FacadeError(Exception): ...
+
 class TransmissionFacade:
     def exception_handler(func):
         def _wrapper(*args, **kwargs):
@@ -12,6 +14,7 @@ class TransmissionFacade:
                 return func(*args, **kwargs)
             except Exception as error:
                 print(error)
+                raise FacadeError(error)
         return _wrapper
 
     @exception_handler

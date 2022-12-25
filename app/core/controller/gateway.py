@@ -32,7 +32,7 @@ class ControllerGateway:
             torrent.download_path = DownloadPath.default
             return torrent
 
-        elif current_url.netloc == 'rutracker.org':
+        elif current_url.netloc == 'rutracker.net':
             topic_id = cls._get_rutracker_topic_id(url)
             if not topic_id:
                 raise TopicIdIsEmpty(

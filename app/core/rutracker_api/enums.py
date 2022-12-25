@@ -3,7 +3,7 @@ from enum import Enum
 
 class Url(Enum):
     # FORUM
-    HOST = "http://rutracker.org"
+    HOST = "http://rutracker.net"
     LOGIN_URL = HOST + "/forum/login.php"
     SEARCH_URL = HOST + "/forum/tracker.php"
     TOPIC_URL = HOST + "/forum/viewtopic.php"
@@ -11,7 +11,7 @@ class Url(Enum):
 
     # OTHER
     MAGNET_ANN = "http://bt2.t-ru.org/ann?magnet"
-    API = "http://api.rutracker.org/v1/"
+    API = "http://api.rutracker.net/v1/"
     # More about API: http://api.rutracker.org/v1/docs/
 
 

@@ -85,6 +85,7 @@ class TorrentObject:
         self._type = None
         self._category = None
         self._download_path = None
+        self._name = None
 
     @property
     def url(self) -> str:
@@ -117,3 +118,11 @@ class TorrentObject:
     @download_path.setter
     def download_path(self, val: DownloadPath):
         self._download_path = val
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @name.setter
+    def name(self, name: str) -> str:
+        self._name = name

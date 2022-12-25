@@ -13,7 +13,8 @@ class ApiProvider(object):
         self.session = session
 
     def _request(self, endpoint: str, params: dict) -> dict:
-        response = self.session.get(Url.API.value + endpoint, params=params)
+        response = self.session.get(Url.API.value + endpoint, params=params, timeout=(2, 5)) 
+        # Timeout is 2 seconds for connection and 5 seconds to get response
         json = response.json()
         if "error" in json:
             raise ServerException(json["error"]["text"])
